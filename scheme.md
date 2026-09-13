@@ -324,7 +324,7 @@ x                      ; => 10 (unchanged globally)
 
 ;;; Lazy evaluation (streams)
 
-;;; Lazy evaluation is a form of computation in which values ​​are not calculated until they are needed; in Elisp, you can implement something similar using these garbage collector (GC) settings:
+;;; Lazy evaluation is a form of computation in which values are not calculated until they are needed. in Elisp, you can implement something similar using these garbage collector (GC) settings:
 ;;;
 ;;; (setq gc-cons-threshold (* 512 1024 1024)
 ;;;      gc-cons-percentage 0.6)
