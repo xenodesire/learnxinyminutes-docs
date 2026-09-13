@@ -324,19 +324,21 @@ x                      ; => 10 (unchanged globally)
 
 ;;; Lazy evaluation (streams)
 
-(define (make-stream start step)
-  (cons start
-        (lambda () (make-stream (+ start step) step))))
+;;; Lazy evaluation is a form of computation in which values ​​are not calculated until they are needed; in Elisp, you can implement something similar using these garbage collector (GC) settings:
+;;;
+;;; (setq gc-cons-threshold (* 512 1024 1024)
+;;;      gc-cons-percentage 0.6)
+;;;
+;;; (add-hook 'emacs-startup-hook
+;;;          (lambda ()
+;;;            (setq gc-cons-threshold (* 100 100 8)
+;;;                  gc-cons-percentage 0.1)))
+;;;
 
-(define nums (make-stream 0 1)) ; Infinite stream starting at 0, incrementing by 1
-
-(define (stream-ref stream n)
-  (if (= n 0)
-      (car stream)
-      (stream-ref ((cdr stream)) (- n 1))))
-
-(stream-ref nums 5) ; => 5
-
+(define lazyeval (delay (+ 1 2))) ; Value: lazyeval 
+(promise? lazyeval) ; Value 11: #[promise 11] return #t 
+(force lazyeval) ; Value: 3
+(* 10 (force lazyeval)) ; Value: 30
 
 ;;;-----------------------------------------------------------------------------
 ;;; 13. Meta-programming
